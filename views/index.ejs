@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+    integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+    crossorigin=""/>
+  </head>
+  <body>
+    <%# Modal that will show when the city name given is wrong%>
+    <%if (error){%>
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" id="#modalDisplay">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Oops, the city name you just typed in is not defined</h5>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-danger" data-dismiss="modal" aria-label="Close">Understood</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <%}%>
+
+    <div class="container">
+      <%# Jumbotron%>
+      <div class="jumbotron">
+        <h1 class="display-4">Welcome to my Weather App</h1>
+        <p class="lead">Type in the name of any city in the world to find out about the weather there.</p>
+      </div>
+
+      <%# Navbar with link to go back home%>
+      <a class="btn btn-outline-secondary" href="/" role="button" id="home"><i class="fas fa-home"></i></a>
+
+      <%# Search bar%>
+      <div class="row animated rollIn">
+        <div class="col-7 col-lg-6 offset-lg-6">
+          <form method="POST" action="/add-city">
+            <div class="form-row">
+              <div class="col-2 col-lg-1">
+                <input type="text" readonly class="form-control-plaintext text-left text" id="vile" value="Ville">
+              </div>
+              <div class="col-5 col-lg-4">
+                <input type="text" class="form-control" placeholder="Paris, Lyon..." id="search" name="cityName">
+              </div>
+              <div class="col-3">
+                <button type="submit" class="btn btn-warning animated rubberBand" id="searchButton">Enregistrer</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+      <div class="row" id="mapinfo">
+        <%# Map%>
+        <div class="col-12 col-lg-6 animated fadeInRightBig" id="mapid">
+          <%#<img src="./images/map.png" alt="" class="img-fluid" id="mapImg">%>
+        </div>
+
+        <%# Lists of cities%>
+        <div class="list-group col-12 col-lg-6 animated fadeInLeftBig" id="citiesListId">
+          <% for (var i = 0; i < cityList.length; i++) { %>
+          <div class="list-group-item list-group-item-action" id="list-item" style="background: <%=cityList[i].color%>75; color:white;"  data-lat="<%=cityList[i].lat%>" data-lon="<%=cityList[i].lon%>" data-position="<%=i%>">
+            <form type="hidden" class="" action="/updatePosition" method="post" id="newPosition" name=<%=i%>></form>
+            <div class="row weatherCity">
+              <div class="col-3">
+                <%=cityList[i].cityName%>
+              </div>
+              <div class="col-2">
+                <%=cityList[i].time%>
+              </div>
+              <div class="col-1 picto">
+                <img src=<%=cityList[i].picto%> alt="" class="animated fadeInRight slower" id="icon">
+              </div>
+              <div class="col-2 picto">
+                <%=cityList[i].weather%>
+              </div>
+              <div class="col-1 picto">
+                <span class="animated zoomIn slower badge badge-pill badge-warning"><%=cityList[i].tempMin%>°C</span>
+              </div>
+              <div class="col-1 picto">
+                <span class="badge badge-pill badge-dark animated zoomIn slower"><%=cityList[i].tempMax%>°C</span>
+              </div>
+              <div class="col-1 offset-1 picto">
+                <a href="/delete-city?id=<%=cityList[i]._id%>" class="btn btn-outline-warning" id="delete"><i class="far fa-times-circle"></i></a>
+              </div>
+            </div>
+          </div>
+          <%}%>
+
+        </div>
+      </div>
+    </div>
+
+    <%# Cool animation of atom%>
+    <div class="atomContainer">
+      <svg class="atom"  viewBox="0 0 100 100">
+        <defs>
+          <filter id="blur" x="-10" y="-10" width="120" height="120">
+            <feGaussianBlur in="SourceGraphic" stdDeviation=".4" />
+          </filter>
+          <filter id="blur2" x="-10" y="-10" width="120" height="120">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
+          </filter>
+        </defs>
+        <g filter="url(#blur2)">
+        <circle class="kern" cx="50" cy="50" r="2" />
+        </g>
+        <circle class="kern" cx="50" cy="50" r="2" />
+        <g class="lines">
+          <path class="" d="M  57.5,50 57.39,55.21 57.05,60.26 56.5,65 55.75,69.28 54.82,72.98 53.75,75.98 52.57,78.19 51.3,79.54 50,80 48.7,79.54 47.43,78.19 46.25,75.98 45.18,72.98 44.25,69.28 43.5,65 42.95,60.26 42.61,55.21 42.5,50 42.61,44.79 42.95,39.74 43.5,35 44.25,30.72 45.18,27.02 46.25,24.02 47.43,21.81 48.7,20.46 50,20 51.3,20.46 52.57,21.81 53.75,24.02 54.82,27.02 55.75,30.72 56.5,35 57.05,39.74 57.39,44.79 57.5,50"></path>
+          <path class="" d="M  53.75,56.5 49.18,59 44.64,61.23 40.26,63.13 36.17,64.62 32.51,65.67 29.38,66.24 26.87,66.32 25.07,65.9 24.02,65 23.76,63.64 24.3,61.87 25.63,59.74 27.69,57.32 30.43,54.67 33.76,51.88 37.59,49.03 41.8,46.21 46.25,43.5 50.82,41 55.36,38.77 59.74,36.88 63.83,35.38 67.49,34.33 70.62,33.76 73.13,33.68 74.93,34.1 75.98,35 76.24,36.36 75.7,38.13 74.38,40.26 72.31,42.68 69.57,45.33 66.24,48.12 62.41,50.97 58.2,53.79 53.75,56.5"></path>
+          <path class="" d="M  53.75,43.5 58.2,46.21 62.41,49.03 66.24,51.88 69.57,54.67 72.31,57.32 74.38,59.74 75.7,61.87 76.24,63.64 75.98,65 74.93,65.9 73.13,66.32 70.63,66.24 67.49,65.67 63.83,64.62 59.74,63.13 55.36,61.23 50.82,59 46.25,56.5 41.8,53.79 37.59,50.97 33.76,48.13 30.43,45.33 27.69,42.68 25.63,40.26 24.3,38.13 23.76,36.36 24.02,35 25.07,34.1 26.87,33.68 29.37,33.76 32.51,34.33 36.17,35.38 40.26,36.87 44.64,38.77 49.18,41 53.75,43.5"></path>
+          </g>
+        <g class="electronTails"  filter="url(#blur)" >
+          <path class="tail tail1" d="M  57.5,50 57.39,55.21 57.05,60.26 56.5,65 55.75,69.28 54.82,72.98 53.75,75.98 52.57,78.19 51.3,79.54 50,80 48.7,79.54 47.43,78.19 46.25,75.98 45.18,72.98 44.25,69.28 43.5,65 42.95,60.26 42.61,55.21 42.5,50 42.61,44.79 42.95,39.74 43.5,35 44.25,30.72 45.18,27.02 46.25,24.02 47.43,21.81 48.7,20.46 50,20 51.3,20.46 52.57,21.81 53.75,24.02 54.82,27.02 55.75,30.72 56.5,35 57.05,39.74 57.39,44.79 57.5,50"></path>
+          <path class="tail tail2" d="M  53.75,56.5 49.18,59 44.64,61.23 40.26,63.13 36.17,64.62 32.51,65.67 29.38,66.24 26.87,66.32 25.07,65.9 24.02,65 23.76,63.64 24.3,61.87 25.63,59.74 27.69,57.32 30.43,54.67 33.76,51.88 37.59,49.03 41.8,46.21 46.25,43.5 50.82,41 55.36,38.77 59.74,36.88 63.83,35.38 67.49,34.33 70.62,33.76 73.13,33.68 74.93,34.1 75.98,35 76.24,36.36 75.7,38.13 74.38,40.26 72.31,42.68 69.57,45.33 66.24,48.12 62.41,50.97 58.2,53.79 53.75,56.5"></path>
+          <path class="tail tail3" d="M  53.75,43.5 58.2,46.21 62.41,49.03 66.24,51.88 69.57,54.67 72.31,57.32 74.38,59.74 75.7,61.87 76.24,63.64 75.98,65 74.93,65.9 73.13,66.32 70.63,66.24 67.49,65.67 63.83,64.62 59.74,63.13 55.36,61.23 50.82,59 46.25,56.5 41.8,53.79 37.59,50.97 33.76,48.13 30.43,45.33 27.69,42.68 25.63,40.26 24.3,38.13 23.76,36.36 24.02,35 25.07,34.1 26.87,33.68 29.37,33.76 32.51,34.33 36.17,35.38 40.26,36.87 44.64,38.77 49.18,41 53.75,43.5"></path>
+        </g>
+        <g class="electrons">
+          <path class="electron electron1" d="M  57.5,50 57.39,55.21 57.05,60.26 56.5,65 55.75,69.28 54.82,72.98 53.75,75.98 52.57,78.19 51.3,79.54 50,80 48.7,79.54 47.43,78.19 46.25,75.98 45.18,72.98 44.25,69.28 43.5,65 42.95,60.26 42.61,55.21 42.5,50 42.61,44.79 42.95,39.74 43.5,35 44.25,30.72 45.18,27.02 46.25,24.02 47.43,21.81 48.7,20.46 50,20 51.3,20.46 52.57,21.81 53.75,24.02 54.82,27.02 55.75,30.72 56.5,35 57.05,39.74 57.39,44.79 57.5,50"></path>
+          <path class="electron electron2" d="M  53.75,56.5 49.18,59 44.64,61.23 40.26,63.13 36.17,64.62 32.51,65.67 29.38,66.24 26.87,66.32 25.07,65.9 24.02,65 23.76,63.64 24.3,61.87 25.63,59.74 27.69,57.32 30.43,54.67 33.76,51.88 37.59,49.03 41.8,46.21 46.25,43.5 50.82,41 55.36,38.77 59.74,36.88 63.83,35.38 67.49,34.33 70.62,33.76 73.13,33.68 74.93,34.1 75.98,35 76.24,36.36 75.7,38.13 74.38,40.26 72.31,42.68 69.57,45.33 66.24,48.12 62.41,50.97 58.2,53.79 53.75,56.5">
+          </path>
+          <path class="electron electron3" d="M  53.75,43.5 58.2,46.21 62.41,49.03 66.24,51.88 69.57,54.67 72.31,57.32 74.38,59.74 75.7,61.87 76.24,63.64 75.98,65 74.93,65.9 73.13,66.32 70.63,66.24 67.49,65.67 63.83,64.62 59.74,63.13 55.36,61.23 50.82,59 46.25,56.5 41.8,53.79 37.59,50.97 33.76,48.13 30.43,45.33 27.69,42.68 25.63,40.26 24.3,38.13 23.76,36.36 24.02,35 25.07,34.1 26.87,33.68 29.37,33.76 32.51,34.33 36.17,35.38 40.26,36.87 44.64,38.77 49.18,41 53.75,43.5"></path></g>
+      </svg>
+    </div>
+
+    <%# Scripts for bootstrap and front end javascript %>
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    <script
+    src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+    integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAe01yXm_aQlq9XlIA_cEv_BCEiWTtnTPE&callback=initMap&libraries=places"
+    async defer></script>
+
+    <script src="./javascripts/script.js" charset="utf-8"></script>
+  </body>
+</html>

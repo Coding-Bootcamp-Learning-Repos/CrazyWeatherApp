@@ -1,0 +1,178 @@
+body{
+
+  padding: 50px;
+  font: 10px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #304352;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #d7d2cc, #304352);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #d7d2cc, #304352); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+/* #searchButton{
+  color: white;
+} */
+
+#mapinfo{
+  margin-top: 10px;
+}
+
+#mapid{
+  padding :5px;
+  height: 248px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+#delete{
+  border-style: none;
+}
+
+.weatherCity{
+  align-items: center;
+}
+
+.picto{
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+#icon{
+  width:35px;
+}
+
+#list-item{
+  border-radius: 10px;
+  margin-top: 5px;
+}
+
+#citiesListId{
+  padding: 5px;
+  /* padding-right: 0px; */
+}
+
+#home{
+  margin-bottom: 10px !important;
+}
+
+
+/* ---------------------- */
+
+/* Style for atom animation */
+svg.atom {
+
+  max-height:150px;
+  max-width:150px;
+  overflow:visible;
+
+}
+
+svg circle.kern {
+  fill: #FFEA00;
+  stroke:none;
+  filter: drop-shadow(0px 0px 4px #AEEA00);
+}
+.atom path {
+  fill:none;
+  stroke:white;
+  stroke-width:.08;
+}
+/* 129 = ellipse.getTotalLength() */
+path.tail {
+  stroke: #bda800;
+  fill:none;
+  animation: atom 3.5s infinite linear;
+  stroke-dashoffset: 0;
+  stroke-dasharray: 20,44.5;
+  stroke-width: 1.5;
+}
+path.electron {
+  stroke: #FFEA00;
+  fill:none;
+  animation: atom 3.5s infinite linear;
+  stroke-dashoffset: 0;
+  stroke-dasharray: .1,64.4;
+  stroke-width: 3;
+  stroke-linecap:round;
+}
+path.tail1, path.electron1 {
+  animation-delay:-1.0s;
+}
+path.tail2, path.electron2 {
+  animation-delay:-1.4s;
+}
+/* 129 = ellipse.getTotalLength() */
+@keyframes atom {
+  to { stroke-dashoffset:129; }
+}
+
+.atomContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/*
+
+Template boilerplate CSS
+
+*/
+/* @import url("https://fonts.googleapis.com/css?family=Roboto:400,400i,700");
+html {
+  height: 100%;
+  background: #1A2A3A;
+  color: #FFF;
+}
+body {
+  font-family: Roboto, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height:100%;
+} */
+
+*,
+*:before,
+*:after {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.dwf, .share {
+  position:fixed;
+  bottom:4px;
+  right:10px;
+  background-color:#0003;
+  padding:3px;
+  border-radius:3px;
+  .btn {
+    color:#fff;
+    text-decoration:none
+  }
+}
+.share {
+  right:auto;
+  left:10px;
+  border-radius:50%;
+  padding:5px;
+  .twitter {
+    width: 20px;
+    fill:#fff;
+    stroke:none;
+    overflow:visible;
+  }
+  .ani {
+    animation:share 7s ease-in infinite;
+    transform-origin:0% 100%;
+  }
+  @keyframes share {
+    85% {
+      transform: scale(1);
+      opacity:.8;
+    }
+    100% {
+      transform: scale(5);
+      opacity:0;
+    }
+  }
+}
