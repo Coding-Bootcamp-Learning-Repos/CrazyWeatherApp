@@ -27,6 +27,12 @@ function initMap() {
   )
 }
 
+function initialize() {
+  var input = document.getElementById('search');
+  new google.maps.places.Autocomplete(input);
+}
+
+
 //Script to let the user drag and drop the cities on the home page
 $(function() {
     $( ".list-group" ).sortable({
@@ -56,7 +62,3 @@ $(function() {
 //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 // }).addTo(mymap);
 //
-// function initialize() {
-//   var input = document.getElementById('search');
-//   new google.maps.places.Autocomplete(input);
-// }
