@@ -1,18 +1,10 @@
-$("#exampleModal").modal('show');
+//Script to show modal when a wrong city has been typed in the search bar
+$("#wrongCityModal").modal('show');
 
+//Script to hide a form used to send the position of the cities displayed on page
 $("#newPosition").form('hide');
 
-var mymap = L.map('mapid').setView([48.86, 2.35], 1);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(mymap);
-
-function initialize() {
-  var input = document.getElementById('search');
-  new google.maps.places.Autocomplete(input);
-}
-
+//Script to generate a google map with markers
 var map;
 function initMap() {
   map = new google.maps.Map(document.getElementById('mapid'), {
@@ -30,66 +22,41 @@ function initMap() {
         map: map,
         draggable:true,
         position: {lat: $(this).data('lat'), lng: $(this).data('lon')}
-        // anchorPoint: new google.maps.Point($(this).data('lat'), $(this).data('lon'))
       });
     }
   )
 }
-$(".list-group-item").each(
-  function() {
-    console.log($(this).data('position'));
-  });
 
-// $(".list-group-item").each(
-//   function() {
-//    $(this).draggable({
-//      revert: true,
-//      snap:true,
-//      zIndex:true
-//    });
-//   }
-// );
-
+//Script to let the user drag and drop the cities on the home page
 $(function() {
     $( ".list-group" ).sortable({
       stop: function( event, ui ) {
         var order=[]
         $(".list-group-item").each(
           function() {
-            // console.log($(this).data('position'));
             order.push($(this).data('position'));
           });
         console.log(order);
         $.ajax({
           type: "POST",
           url: "/newOrder",
-          data: { newOrder: "a" },
-          success: function(data){
-            console.log("ok");
-          }
+          data: {"newOrder": order},
         });
-
-        // $.get("/newOrder?order=order");
       }
     });
     $( ".list-group" ).disableSelection();
-
-
 });
 
 
 
-// $(".list-group-item").each(
-//   function() {
-//     L.marker([$(this).data('lat'), $(this).data('lon')]).addTo(mymap)
-//       // .bindPopup($('.col-5').text())
-//       .openPopup();
-//   }
-// )
+//BONUS : Script to generate map with Openstreet Map
+var mymap = L.map('mapid').setView([48.86, 2.35], 1);
 
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(mymap);
 
-
-
-
-
-// API key google places : AIzaSyCyz0GiCFfr_sRqEvNb7f66w58HHDdJ0TU
+function initialize() {
+  var input = document.getElementById('search');
+  new google.maps.places.Autocomplete(input);
+}

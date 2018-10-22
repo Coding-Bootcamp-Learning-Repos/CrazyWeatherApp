@@ -1,15 +1,10 @@
 body{
-
   padding: 50px;
   font: 10px "Lucida Grande", Helvetica, Arial, sans-serif;
   background: #304352;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #d7d2cc, #304352);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #d7d2cc, #304352); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
-
-/* #searchButton{
-  color: white;
-} */
 
 #mapinfo{
   margin-top: 10px;
@@ -46,7 +41,6 @@ body{
 
 #citiesListId{
   padding: 5px;
-  /* padding-right: 0px; */
 }
 
 #home{
@@ -54,13 +48,11 @@ body{
 }
 
 
-/* ---------------------- */
-
 /* Style for atom animation */
 svg.atom {
 
-  max-height:150px;
-  max-width:150px;
+  max-height:100px;
+  max-width:100px;
   overflow:visible;
 
 }
@@ -75,7 +67,7 @@ svg circle.kern {
   stroke:white;
   stroke-width:.08;
 }
-/* 129 = ellipse.getTotalLength() */
+
 path.tail {
   stroke: #bda800;
   fill:none;
@@ -99,7 +91,7 @@ path.tail1, path.electron1 {
 path.tail2, path.electron2 {
   animation-delay:-1.4s;
 }
-/* 129 = ellipse.getTotalLength() */
+
 @keyframes atom {
   to { stroke-dashoffset:129; }
 }
@@ -110,26 +102,6 @@ path.tail2, path.electron2 {
   align-items: center;
   flex-direction: column;
 }
-
-/*
-
-Template boilerplate CSS
-
-*/
-/* @import url("https://fonts.googleapis.com/css?family=Roboto:400,400i,700");
-html {
-  height: 100%;
-  background: #1A2A3A;
-  color: #FFF;
-}
-body {
-  font-family: Roboto, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height:100%;
-} */
 
 *,
 *:before,

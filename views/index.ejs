@@ -12,7 +12,7 @@
   <body>
     <%# Modal that will show when the city name given is wrong%>
     <%if (error){%>
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="wrongCityModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document" id="#modalDisplay">
           <div class="modal-content">
             <div class="modal-header">
@@ -68,11 +68,8 @@
           <div class="list-group-item list-group-item-action" id="list-item" style="background: <%=cityList[i].color%>75; color:white;"  data-lat="<%=cityList[i].lat%>" data-lon="<%=cityList[i].lon%>" data-position="<%=i%>">
             <form type="hidden" class="" action="/updatePosition" method="post" id="newPosition" name=<%=i%>></form>
             <div class="row weatherCity">
-              <div class="col-3">
+              <div class="col-5">
                 <%=cityList[i].cityName%>
-              </div>
-              <div class="col-2">
-                <%=cityList[i].time%>
               </div>
               <div class="col-1 picto">
                 <img src=<%=cityList[i].picto%> alt="" class="animated fadeInRight slower" id="icon">
@@ -92,7 +89,6 @@
             </div>
           </div>
           <%}%>
-
         </div>
       </div>
     </div>
