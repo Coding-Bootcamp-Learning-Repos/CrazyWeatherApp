@@ -50,13 +50,13 @@ $(function() {
 
 
 //BONUS : Script to generate map with Openstreet Map
-var mymap = L.map('mapid').setView([48.86, 2.35], 1);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(mymap);
-
-function initialize() {
-  var input = document.getElementById('search');
-  new google.maps.places.Autocomplete(input);
-}
+// var mymap = L.map('mapid').setView([48.86, 2.35], 1);
+//
+// L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+//   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+// }).addTo(mymap);
+//
+// function initialize() {
+//   var input = document.getElementById('search');
+//   new google.maps.places.Autocomplete(input);
+// }
