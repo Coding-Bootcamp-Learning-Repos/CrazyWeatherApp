@@ -1,6 +1,6 @@
 # CrazyWeatherApp
 
-This is a JS web app to find out about the weather in realtime of any city in the world: https://crazyweatherapp.herokuapp.com/.
+This is a JS web app to find out about the weather in realtime of any city in the world. Url accessible on demand.
 
 I built this app to learn about: 
 <ol>
